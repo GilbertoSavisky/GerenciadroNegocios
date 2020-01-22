@@ -8,12 +8,14 @@ using System.Web;
 using System.Web.Mvc;
 using GerenciadorNegocios.Data;
 using GerenciadorNegocios.Models;
+using GerenciadorNegocios.Service;
 
 namespace GerenciadorNegocios.Controllers
 {
     public class ClientesController : Controller
     {
         private GerenciadorNegociosContext db = new GerenciadorNegociosContext();
+        private readonly ClientesServices clienteService = new ClientesServices();
 
         // GET: Clientes
         public ActionResult Index()
@@ -43,8 +45,6 @@ namespace GerenciadorNegocios.Controllers
         }
 
         // POST: Clientes/Create
-        // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
-        // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Nome,CPFCNPJ")] Cliente cliente)
@@ -75,8 +75,6 @@ namespace GerenciadorNegocios.Controllers
         }
 
         // POST: Clientes/Edit/5
-        // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
-        // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Nome,CPFCNPJ")] Cliente cliente)

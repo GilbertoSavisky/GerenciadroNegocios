@@ -8,18 +8,33 @@ using System.Web;
 using System.Web.Mvc;
 using GerenciadorNegocios.Data;
 using GerenciadorNegocios.Models;
+using GerenciadorNegocios.Services;
 
 namespace GerenciadorNegocios.Controllers
 {
     public class NegociosController : Controller
     {
         private GerenciadorNegociosContext db = new GerenciadorNegociosContext();
+        private NegocioService negocioService = new NegocioService();
 
-        // GET: Negocios
-        public ActionResult Index()
+
+        public void PesquisarTodos()
         {
-            var negocios = db.Negocios.Include(n => n.Cliente).Include(n => n.Produto);
-            return View(negocios.ToList());
+            IList<Negocio> neg = db.Negocios.ToList();
+            Index(neg);
+        }
+        // GET: Negocios
+        public ActionResult Index(IList<Negocio> negocios)
+        {
+            IList<Negocio> lista;
+            if (negocios != null)
+            {
+                lista = negocios;
+            }
+            else
+                lista = new List<Negocio>();
+            
+            return View(lista);
         }
 
         // GET: Negocios/Details/5
@@ -50,7 +65,7 @@ namespace GerenciadorNegocios.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Etapas,ClienteId,ProdutoId,Valor")] Negocio negocio)
+        public ActionResult Create([Bind(Include = "Id,Descricao,Etapas,ClienteId,ProdutoId,Valor")] Negocio negocio)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +101,7 @@ namespace GerenciadorNegocios.Controllers
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Etapas,ClienteId,ProdutoId,Valor")] Negocio negocio)
+        public ActionResult Edit([Bind(Include = "Id,Descricao,Etapas,ClienteId,ProdutoId,Valor")] Negocio negocio)
         {
             if (ModelState.IsValid)
             {
@@ -133,5 +148,12 @@ namespace GerenciadorNegocios.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public PartialViewResult Pesquisar(String campo)
+        {
+            IEnumerable<Negocio> resultado = negocioService.Pesquisar(campo);
+            return PartialView("~/Views/Negocios/viewNegocios.cshtml", resultado);
+        }
+
     }
 }

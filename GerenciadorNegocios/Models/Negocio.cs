@@ -7,6 +7,8 @@ namespace GerenciadorNegocios.Models
     public class Negocio
     {
         public int Id { get; set; }
+
+        public string Descricao { get; set; }
         public Etapas Etapas { get; set; }
         public Cliente Cliente { get; set; }
         public int ClienteId { get; set; }

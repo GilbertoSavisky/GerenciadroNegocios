@@ -2,15 +2,41 @@
 
 @{
     ViewBag.Title = "Negócios";
+
 }
 
 <h2>@ViewBag.Title</h2>
 
-<input type="button"
-       value="Criar Novo"
-       class=" btn btn-success"
-       onclick="location.href='@Url.Action("Create", "Negocios")'" />
-<hr />
+<div class="row">
+    <input type="button"
+           value="Pesquisar"
+           class=" btn btn-primary col-lg-1"
+           style="margin: 0 10px 0 15px"
+           onclick="pesquisar()" />
+    <input type="button"
+           value="Pesquisar Todos"
+           class=" btn btn-success col-lg"
+           onclick="pesquisarTodos()" />
+
+
+    <div id="inputs">
+        <div class="form-group col-md-12">
+            <label for="inputEmail4">Descrição</label>
+            <input type="email" class="form-control" id="inputEmail" onblur="habilitarInputs(this)" placeholder="Descrição">
+            <div class="col-md-12">
+
+            </div>
+        </div>
+        <div class="form-group col-md-2">
+            <label for="inputPassword4">Código</label>
+            <input type="number" class="form-control" id="inputCodigo" onblur="habilitarInputs(this)" placeholder="">
+        </div>
+    </div>
+</div>
+
+
+
+
 <table class="table">
     <tr class="success">
         <th>
@@ -52,3 +78,63 @@
     }
 
 </table>
+<hr />
+
+<input type="button"
+       value="Voltar"
+       class=" btn btn-primary col-lg-1"
+       onclick="location.href='@Url.Action("Index", "Home")'" />
+
+<script>
+
+    var campo;
+
+    function habilitarInputs(inputs) {
+        if (inputEmail.value == "" && inputCodigo.value == "") {
+            campo = "";
+        }
+        if (inputEmail.value != "") {
+            inputCodigo.setAttribute("disabled", true)
+            campo = inputEmail.value;
+        } else {
+            inputCodigo.removeAttribute("disabled");
+        }
+        if (inputCodigo.value != "") {
+            inputEmail.setAttribute("disabled", true)
+            campo = inputCodigo.value;
+        } else {
+            inputEmail.removeAttribute("disabled");
+        }
+
+
+
+    }
+
+    function pesquisar() {
+        if (campo == "" || campo == null)
+            alert("Campos vazios, favor preencher um!", "Aviso");
+        else {
+            console.log(campo);
+            $.ajax('Negocios/Pesquisar', {
+                method: 'GET',
+                data: {
+                    campo: campo
+                }
+            });
+
+        }
+    }
+
+        function pesquisarTodos() {
+            $.ajax('Negocios/PesquisarTodos', {
+                method: 'GET',
+                data: {
+                    campo: campo
+                }
+            });
+
+    }
+
+
+
+</script>
