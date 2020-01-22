@@ -1,0 +1,27 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+    <div class="jumbotron">
+        <h1>Gerenciamento</h1>
+        <p class="lead">Gerenciamento de negócios</p>
+        <div class="form-actions no-color">
+            <input type="button"
+                   value="Adicionar"
+                   class=" btn btn-success"
+                   onclick="location.href='@Url.Action("Create", "Negocios")'" />
+        </div>
+        <br />
+        <div class="form-actions no-color">
+            <input type="button"
+                   value="Pesquisar"
+                   class=" btn btn-success"
+                   onclick="location.href='@Url.Action("Index", "Negocios")'" />
+        </div>
+
+    </div>
+
+<div class="row">
+    <div class="col-md-4">
+    </div>
+</div>
